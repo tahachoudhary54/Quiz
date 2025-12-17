@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .quiz-box {
+            background: #fff;
+            padding: 20px;
+            width: 350px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        }
+
+        h2 {
+            margin-bottom: 15px;
+        }
+
+        .option {
+            margin: 8px 0;
+        }
+
+        button {
+            margin-top: 15px;
+            padding: 10px;
+            width: 100%;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-box">
+    <h2 id="question">Question here</h2>
+
+    <div>
+        <input type="radio" name="answer" value="a"> <span id="a"></span>
+    </div>
+
+    <div>
+        <input type="radio" name="answer" value="b"> <span id="b"></span>
+    </div>
+
+    <div>
+        <input type="radio" name="answer" value="c"> <span id="c"></span>
+    </div>
+
+    <div>
+        <input type="radio" name="answer" value="d"> <span id="d"></span>
+    </div>
+
+    <button onclick="nextQuestion()">Next</button>
+    </div>
+
+    <script>
+        const quizData = [
+            {
+                question: "What is the full form of HTML?",
+                a: "Hyper Text Markup Language",
+                b: "High Text Machine Language",
+                c: "Hyperlinks Text Markup Language",
+                d: "None",
+                correct: "a"
+            },
+            {
+                question: "What is JavaScript used for?",
+                a: "Styling",
+                b: "Database",
+                c: "Logic & Interaction",
+                d: "Server Only",
+                correct: "b"
+            },
+            {
+                question: "What is CSS is used for?",
+                a: "Logic",
+                b: "Structure",
+                c: "Styling",
+                d: "Database",
+                correct: "c"
+            },
+        ];
+
+        let current = 0;
+        let score = 0;
+
+        const questionEl = document.getElementById("question");
+        const aEl = document.getElementById("a");
+        const bEl = document.getElementById("b");
+        const cEl = document.getElementById("c");
+        const dEl = document.getElementById("d");
+
+        function loadQuestion() {
+            const q = quizData[current];
+            questionEl.innerText = q.question;
+            aEl.innerText = q.a;
+            bEl.innerText = q.b;
+            cEl.innerText = q.c;
+            dEl.innerText = q.d;
+
+            document.querySelectorAll("input").forEach(input => input.checked = false);
+        }
+  
+        function nextQuestion() {
+            const answer = document.querySelector("input[name='answer']:checked");
+
+            console.log(answer.value);
+
+            if (!answer) {
+                alert("Please slect an answwer");
+                return;
+            }
+
+            if(answer.value === quizData[current].correct) {
+                score++;
+            }
+            
+            current++;
+
+            if(current < quizData.length) {
+                loadQuestion();
+            } else {
+                document.querySelector(".quiz-box").innerHTML = 
+                `<h2>Quiz Finished 🎉</h2>
+                <p>Your Score: ${score} / ${quizData.length}</p>`;
+            }
+        }
+        loadQuestion();
+    </script>
+</body>
+</html>
